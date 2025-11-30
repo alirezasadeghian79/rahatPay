@@ -1,0 +1,22 @@
+{
+  "name": "rahatbin/pay",
+  "description": "Modular multi-gateway payment system for Laravel/PHP",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "rahatPay\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "rahatPay\\Providers\\PaymentServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "stable"
+}
