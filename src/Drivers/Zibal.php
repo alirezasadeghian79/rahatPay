@@ -54,7 +54,11 @@ class Zibal implements PaymentInterface
                 'callbackUrl' => $this->callback,
             ]
         ]);
-        return $result;
+        $response = json_decode($result->getBody(),true);
+        return [
+            'authority' => $response['trackId'],
+            'statue' => $response['result'],
+        ];
     }
 
 
@@ -73,6 +77,11 @@ class Zibal implements PaymentInterface
                 'trackId' => $authority,
             ]
         ]);
-        return $result;
+        $response = json_decode($result->getBody(),true);
+        return [
+            'status' => $response['result'] == 100 || $response['result'] == 201 ? 100: $response['result'],
+            'card_pan' => isset($response['cardNumber']) ? $response['cardNumber']:null,
+            'ref_id' => isset($response['refNumber']) ? $response['refNumber']:$authority,
+        ];
     }
 }

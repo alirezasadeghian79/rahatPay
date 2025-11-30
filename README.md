@@ -10,20 +10,79 @@
 ### 1. نصب از طریق Composer
 ```bash
 composer require alirezasadeghian79/rahatpay
+```
 
-
-## 🚀 نصب
-
-### 2. zarinpal
+### 2. تنظیمات config.php 
 ```bash
+  'default' => 'zarinpal', // انتخاب درایور
+
+    'drivers' => [
+
+        'zarinpal' => [
+            'merchant_id' => env('ZARINPAL_MERCHANT_ID'), // کد مرچنت zarinpal
+            'default' => 'sandbox',  // sandbox || payment حالت استفاده بین این دو گزینه
+            'routes' => [
+              ...
+            ]
+        ],
+
+        'zibal' => [
+            'merchant_id' => env('ZIBAL_MERCHANT_ID'), // کد مرچنت zibal برای تست همان zibal قرار دهید
+            'routes' => [
+                ...
+            ],
+        ]
+    ],
+```
+
+### 3. pay - ایجاد درخواست
+
+```bash
+ // فراخوانی کتابخانه
 use rahatPay\Services\Payment;
 
+ // فراخوانی متود سازنده
 $rahatPay = new Payment();
-$payment = $rahatPay->setAmount(15000)
-    ->setDescription('ثبت سفارش')
-    ->setCallback(route('pay.result'));
 
+$payment = $rahatPay
+    ->setAmount(15000) // مبلغ سفارش
+    ->setDescription('ثبت سفارش') // توضیحات سفارش
+    ->setCallback(route('pay.result')); // آدرس callBack
+    
+// ایجاد درخواست
 $response = $payment->pay();
-$authority = json_decode($response->getBody(),true)['data']['authority'];
+
+// authority شناسه تراکنش ایجاد شده
+$authority = $response['authority'];
+
+ // ایجاد آدرس درگاه پرداخت برای ریدایرکت
 $redirect_url = $payment->startPay($authority);
+
+ // ریدایرکت به درگاه
 return redirect()->to($redirect_url);
+
+```
+
+### 4. verify - تایید پرداخت
+```bash
+ // فراخوانی کتابخانه
+use rahatPay\Services\Payment;
+
+ // فراخوانی متود سازنده
+$rahatPay = new Payment();
+
+// Zarinpal
+$authority = $request->get('Authority'); // Authority شناسه پرداخت 
+$status = $request->get('Status'); وضعیت پرداخت
+if ($status == 'OK'){
+    $result = $payment->verify($authority,15000); // تایید درخواست
+}
+
+// Zibal
+$authority = $request->get('trackId'); // Authority شناسه پرداخت 
+$status = $request->get('success'); وضعیت پرداخت
+if ($status == 1){
+    $result = $payment->verify($authority,15000); // تایید درخواست
+}
+    
+```

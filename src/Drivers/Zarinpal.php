@@ -51,7 +51,11 @@ class Zarinpal implements PaymentInterface
                 'callback_url' => $this->callback,
             ]
         ]);
-        return $result;
+        $response = json_decode($result->getBody(),true);
+        return [
+            'authority' => $response['data']['authority'],
+            'statue' => $response['data']['code'],
+        ];
     }
 
 
@@ -71,6 +75,11 @@ class Zarinpal implements PaymentInterface
                 'authority' => $authority,
             ]
         ]);
-        return $result;
+        $response = json_decode($result->getBody(),true);
+        return [
+            'status' => $response['data']['code'] == 100 || $response['data']['code'] == 101 ? 100:$response['data']['code'],
+            'card_pan' => $response['data']['card_pan'],
+            'ref_id' => $response['data']['ref_id'],
+        ];
     }
 }
