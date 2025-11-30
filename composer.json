@@ -4,7 +4,8 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "php": "^8.2"
+    "php": "^8.2",
+    "alirezasadeghian79/rahatpay": "master"
   },
   "autoload": {
     "psr-4": {
@@ -18,5 +19,11 @@
       ]
     }
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/alirezasadeghian79/rahatPay"
+    }
+  ],
   "minimum-stability": "stable"
 }
