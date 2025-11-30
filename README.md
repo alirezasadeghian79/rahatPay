@@ -35,7 +35,7 @@ composer require alirezasadeghian79/rahatpay
     ],
 ```
 
-###3. pay - ایجاد درخواست
+### 3. pay - ایجاد درخواست
 
 ```bash
  // فراخوانی کتابخانه
