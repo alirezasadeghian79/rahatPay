@@ -34,37 +34,29 @@ composer require alirezasadeghian79/rahatpay
 
 ### 3. pay - ایجاد درخواست
 ```bash
-// فراخوانی کتابخانه
-use rahatPay\Services\Payment;
+use rahatPay\Services\Payment; // فراخوانی کتابخانه
 
-// فراخوانی متود سازنده
-$rahatPay = new Payment();
+$rahatPay = new Payment(); // فراخوانی متود سازنده
 
 $payment = $rahatPay
     ->setAmount(15000) // مبلغ سفارش
     ->setDescription('ثبت سفارش') // توضیحات سفارش
     ->setCallback(route('pay.result')); // آدرس callBack
     
-// ایجاد درخواست
-$response = $payment->pay();
+$response = $payment->pay(); // ایجاد درخواست
 
-// authority شناسه تراکنش ایجاد شده
-$authority = $response['authority'];
+$authority = $response['authority']; // authority شناسه تراکنش ایجاد شده
 
-// ایجاد آدرس درگاه پرداخت برای ریدایرکت
-$redirect_url = $payment->startPay($authority);
+$redirect_url = $payment->startPay($authority); // ایجاد آدرس درگاه پرداخت برای ریدایرکت
 
-// ریدایرکت به درگاه
-return redirect()->to($redirect_url);
+return redirect()->to($redirect_url); // ریدایرکت به درگاه
 ```
 
 ### 4. verify - تایید پرداخت
 ```bash
-// فراخوانی کتابخانه
-use rahatPay\Services\Payment;
+use rahatPay\Services\Payment; // فراخوانی کتابخانه
 
-// فراخوانی متود سازنده
-$rahatPay = new Payment();
+$rahatPay = new Payment(); // فراخوانی متود سازنده
 
 // Zarinpal
 $authority = $request->get('Authority'); // Authority شناسه پرداخت 
