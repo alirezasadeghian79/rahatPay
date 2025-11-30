@@ -12,12 +12,10 @@
 composer require alirezasadeghian79/rahatpay
 ```
 
-### 2. تنظیمات config.php 
+### 2. تنظیمات config.php
 ```bash
-  'default' => 'zarinpal', // انتخاب درایور
-
+    'default' => 'zarinpal', // انتخاب درایور
     'drivers' => [
-
         'zarinpal' => [
             'merchant_id' => env('ZARINPAL_MERCHANT_ID'), // کد مرچنت zarinpal
             'default' => 'sandbox',  // sandbox || payment حالت استفاده بین این دو گزینه
@@ -25,7 +23,6 @@ composer require alirezasadeghian79/rahatpay
               ...
             ]
         ],
-
         'zibal' => [
             'merchant_id' => env('ZIBAL_MERCHANT_ID'), // کد مرچنت zibal برای تست همان zibal قرار دهید
             'routes' => [
@@ -36,12 +33,11 @@ composer require alirezasadeghian79/rahatpay
 ```
 
 ### 3. pay - ایجاد درخواست
-
 ```bash
- // فراخوانی کتابخانه
+// فراخوانی کتابخانه
 use rahatPay\Services\Payment;
 
- // فراخوانی متود سازنده
+// فراخوانی متود سازنده
 $rahatPay = new Payment();
 
 $payment = $rahatPay
@@ -55,20 +51,19 @@ $response = $payment->pay();
 // authority شناسه تراکنش ایجاد شده
 $authority = $response['authority'];
 
- // ایجاد آدرس درگاه پرداخت برای ریدایرکت
+// ایجاد آدرس درگاه پرداخت برای ریدایرکت
 $redirect_url = $payment->startPay($authority);
 
- // ریدایرکت به درگاه
+// ریدایرکت به درگاه
 return redirect()->to($redirect_url);
-
 ```
 
 ### 4. verify - تایید پرداخت
 ```bash
- // فراخوانی کتابخانه
+// فراخوانی کتابخانه
 use rahatPay\Services\Payment;
 
- // فراخوانی متود سازنده
+// فراخوانی متود سازنده
 $rahatPay = new Payment();
 
 // Zarinpal
@@ -83,6 +78,5 @@ $authority = $request->get('trackId'); // Authority شناسه پرداخت
 $status = $request->get('success'); وضعیت پرداخت
 if ($status == 1){
     $result = $payment->verify($authority,15000); // تایید درخواست
-}
-    
+}    
 ```
