@@ -12,6 +12,11 @@
 composer require alirezasadeghian79/rahatpay
 ```
 
+### 1. publish
+```bash
+php artisan vendor:publish --provider="rahatPay\Providers\PaymentServiceProvider"
+```
+
 ### 2. تنظیمات config.php
 ```bash
     'default' => 'zarinpal', // انتخاب درایور
